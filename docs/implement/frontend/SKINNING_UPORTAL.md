@@ -10,37 +10,10 @@
 
 ## Creating a skin
 
-1.  Start at the root folder of the uPortal source code
-2.  Navigate to the *uportal-war/src/main/webapp/media/skins* folder
-3.  Copy the *defaultSkin/* folder and give it an institution specific name (e.g. *wolverine/*)
-4.  Copy the *defaultSkin.less* file and give it the same name (e.g. *wolverine.less*)
-5.  Edit the imports in the skin file to point to the skin folder. e.g. *wolverine.less*
-
-    ``` less
-    /** DO NOT REMOVE OR ALTER THESE INCLUDES **/
-    @import "defaultSkin/less/variables.less";
-    @import "common/common.less";
-    /*******************************************/
-
-    @import "wolverine/less/variables.less";
-    @import "wolverine/less/skin.less";
-    ```
-
-6.  Navigate to the *uportal-war/src/main/webapp/media/skins/respondr* folder
-7.  Edit *skinList.xml* to point the `<skin-name>` and `<skin-key>` to the new skin name. e.g.
-
-    ``` xml
-    <skin>
-        <skin-key>wolverine</skin-key>
-        <skin-name>wolverine</skin-name>
-        <skin-description>
-            Basic skin for the Respondr theme based on Twitter Bootstrap and Responsive Design
-        </skin-description>
-    </skin>
-    ```
-
-8.  Navigate to the *uportal-war/src/main/data/default_entities/portlet-definition* folder
-9.  Edit *dynamic-respondr-skin.portlet-definition.xml* and add a `<portal-preference>` with a `<name>` of `PREFdynamicSkinName` and a `<value>` with the skin name. e.g.
+1.  Start at the root folder of the uPortal-Start.
+2.  Call `./gradlew generateSkin -DskinName=wolverine` Obviously you can have the skin be named what ever you like. We will use wolverine for this example.
+3.  Navigate to the *data/base/portlet-definition/* folder
+4.  Edit *dynamic-respondr-skin.portlet-definition.xml* and add a `<portal-preference>` with a `<name>` of `PREFdynamicSkinName` and a `<value>` with the skin name. e.g.
 
     ``` xml
     <portlet-preference>
@@ -49,8 +22,8 @@
     </portlet-preference>
     ```
 
-10. Navigate to the *uportal-war/src/main/data/required_entities/stylesheet-descriptor* folder
-11. Edit *Respondr.stylesheet-descriptor.xml* and change the `<default-value>` to the skin name. e.g.
+5. Navigate to the *data/base/stylesheet-descriptor* folder
+6. Edit *Respondr.stylesheet-descriptor.xml* and change the `<default-value>` to the skin name. e.g.
 
     ``` xml
     <stylesheet-parameter>
@@ -61,14 +34,13 @@
     </stylesheet-parameter>
     ```
 
-12. Run `ant initdb` to apply the changes to the database.
-13. Run `ant clean deploy-war` to build uPortal with the new skin
-14. :warning: **Don’t forget to add the new skin to Git!**
+7. Run `./gradlew portalInit` to apply the changes to the database.
+8. :warning: **Don’t forget to add the new skin to Git!**
 
 ## Skin Configuration
 
 uPortal uses [Less variables](http://lesscss.org/features/#variables-feature) to handle global skin changes.
-Changes can be made to override the [Bootstrap variables](/uportal-war/src/main/webapp/media/skins/respondr/common/bootstrap/variables.less) or the [uPortal variables](/uportal-war/src/main/webapp/media/skins/respondr/defaultSkin/less/variables.less), changes should be made to the skin's `variable.less` file.
+Changes can be made to override the [uPortal variables](/uPortal-webapp/src/main/webapp/media/skins/respondr/common/less/variables.less). Do not edit said file though. All changes should be made to the skin's `variable.less` file.
 
 ## Special Notes
 
